@@ -124,25 +124,28 @@
 
         /* Hero Section */
         .hero {
-            padding: 4rem 1rem;
+            padding: 6rem 1rem 4rem;
             text-align: center;
         }
 
         .hero h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            margin-bottom: 1rem;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            margin-bottom: 1.5rem;
             background: linear-gradient(135deg, var(--primary), var(--secondary), #06b6d4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            line-height: 1.2;
+            line-height: 1.1;
+            font-weight: 800;
+            letter-spacing: -0.02em;
         }
 
         .hero p {
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 2rem;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
         }
 
         .hero-buttons {
@@ -150,6 +153,287 @@
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .hero-buttons .btn {
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+        }
+
+        /* Features Grid */
+        .features-section {
+            padding: 4rem 1rem;
+            background: rgba(30, 41, 59, 0.3);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .features-section .container {
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(59, 130, 246, 0.1));
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Social Proof Section */
+        .social-proof {
+            padding: 4rem 1rem;
+        }
+
+        .social-proof .container {
+            text-align: center;
+        }
+
+        .proof-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .proof-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+        }
+
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .testimonial {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.05), rgba(59, 130, 246, 0.05));
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: left;
+        }
+
+        .testimonial-text {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .testimonial-role {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            padding: 4rem 1rem;
+            background: rgba(30, 41, 59, 0.3);
+            border-top: 1px solid var(--border);
+        }
+
+        .pricing-section .container {
+            text-align: center;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .pricing-card {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(59, 130, 246, 0.1));
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .pricing-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.2);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: 1rem;
+            right: -2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.5rem 2rem;
+            transform: rotate(45deg);
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .pricing-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-amount {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.25rem;
+        }
+
+        .pricing-period {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 0.75rem 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .pricing-features li:before {
+            content: "✓";
+            color: var(--success);
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .pricing-card .btn {
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 4rem 1rem;
+            text-align: center;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .cta-content p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* Main Content */
@@ -517,11 +801,15 @@
             }
 
             .hero {
-                padding: 2rem 1rem;
+                padding: 3rem 1rem 2rem;
             }
 
             .hero h1 {
                 font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
             }
 
             .hero-buttons {
@@ -564,11 +852,43 @@
                 display: block;
                 padding: 0.5rem 0;
             }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .testimonials {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .cta-content h2 {
+                font-size: 1.75rem;
+            }
         }
 
         @media (max-width: 480px) {
             .hero h1 {
                 font-size: 1.5rem;
+            }
+
+            .hero p {
+                font-size: 0.95rem;
             }
 
             .paste-card,
@@ -583,6 +903,18 @@
             .stat-box {
                 padding: 0.75rem;
             }
+
+            .pricing-card {
+                padding: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .feature-icon {
+                font-size: 2.5rem;
+            }
         }
     </style>
 </head>
@@ -593,7 +925,7 @@
             <div class="logo">ContentVault</div>
             <ul>
                 <li><a href="#" onclick="showHome()">Home</a></li>
-                <li><a href="paste.html">paste</a></li>
+                <li><a href="paste.html">Paste</a></li>
                 <li><a href="#" onclick="showDashboard()">Dashboard</a></li>
                 <li><a href="#" onclick="openPremiumModal()">Premium</a></li>
                 <li><button class="btn btn-primary btn-small" onclick="openPremiumModal()">Upgrade</button></li>
@@ -632,84 +964,164 @@
         <!-- Hero -->
         <section class="hero">
             <div class="container">
-                <h1>Create, Share & Monetize Your Content</h1>
-                <p>Paste your content with custom timers, control who sees what, and earn from your audience</p>
+                <h1>Monetize Your Content</h1>
+                <p>Create, share, and earn from your content with custom timers, access control, and built-in analytics</p>
                 <div class="hero-buttons">
-                    <button class="btn btn-primary" onclick="scrollToCreate()">Create Paste Now</button>
+                    <button class="btn btn-primary" onclick="scrollToCreate()">Start Creating</button>
                     <button class="btn btn-secondary" onclick="openPremiumModal()">Learn More</button>
                 </div>
             </div>
         </section>
 
-        <!-- Main Content -->
-        <div class="container">
-            <div class="main-content">
-                <!-- Paste Creation -->
-                <div class="paste-card">
-                    <h2>Create New Paste</h2>
-                    
-                    <div class="timer-display">
-                        <div class="label">Expires in</div>
-                        <div class="time" id="timerDisplay">24:00:00</div>
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="container">
+                <h2 class="section-title">Powerful Features</h2>
+                <p class="section-subtitle">Everything you need to create, share, and monetize your content</p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">⏱️</div>
+                        <h3>Smart Timers</h3>
+                        <p>Set custom expiration times from 5 minutes to 30 days. Your content automatically expires and disappears.</p>
                     </div>
-
-                    <form id="pasteForm">
-                        <div class="form-group">
-                            <label for="pasteTitle">Paste Title</label>
-                            <input type="text" id="pasteTitle" placeholder="Enter title..." required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="pasteContent">Content</label>
-                            <textarea id="pasteContent" placeholder="Paste your content here..." required></textarea>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="expireTime">Expires In</label>
-                                <select id="expireTime" onchange="updateTimer()">
-                                    <option value="3600">1 Hour</option>
-                                    <option value="86400" selected>24 Hours</option>
-                                    <option value="604800">7 Days</option>
-                                    <option value="2592000">30 Days</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="accessLevel">Access Level</label>
-                                <select id="accessLevel">
-                                    <option value="free">Free (Blurred)</option>
-                                    <option value="premium">Premium Only</option>
-                                    <option value="public">Public</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">Create Paste</button>
-                    </form>
-                </div>
-
-                <!-- Preview -->
-                <div class="preview-card">
-                    <h2>Preview</h2>
-                    
-                    <div class="preview-content" id="previewContent">
-                        <div class="preview-text">Your content preview will appear here...</div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💰</div>
+                        <h3>Instant Earnings</h3>
+                        <p>Earn money every time someone views your content. Get paid daily with our transparent revenue sharing.</p>
                     </div>
-
-                    <div class="preview-stats">
-                        <div class="stat-box">
-                            <div class="label">Views</div>
-                            <div class="value" id="viewCount">0</div>
-                        </div>
-                        <div class="stat-box">
-                            <div class="label">Earnings</div>
-                            <div class="value" id="earnings">$0.00</div>
-                        </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Analytics Dashboard</h3>
+                        <p>Track views, clicks, engagement rates, and earnings in real-time with detailed performance metrics.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔐</div>
+                        <h3>Access Control</h3>
+                        <p>Choose who sees your content - free users with blur, premium only, or fully public sharing.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">✨</div>
+                        <h3>Syntax Highlighting</h3>
+                        <p>Support for 50+ programming languages with beautiful code highlighting and formatting.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🚀</div>
+                        <h3>Lightning Fast</h3>
+                        <p>Content loads in milliseconds with our optimized CDN and global infrastructure.</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Social Proof Section -->
+        <section class="social-proof">
+            <div class="container">
+                <h2 class="proof-title">Trusted by Creators</h2>
+                <p class="proof-subtitle">Join thousands of content creators earning money daily</p>
+                
+                <div class="testimonials">
+                    <div class="testimonial">
+                        <div class="testimonial-text">"ContentVault has completely changed how I share my work. I'm earning $500+ per month just from my code snippets!"</div>
+                        <div class="testimonial-author">Alex Johnson</div>
+                        <div class="testimonial-role">Software Developer</div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-text">"The analytics are incredible. I can see exactly which content performs best and optimize my strategy accordingly."</div>
+                        <div class="testimonial-author">Sarah Chen</div>
+                        <div class="testimonial-role">Technical Writer</div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-text">"Simple, elegant, and effective. ContentVault is the only platform I use for sharing sensitive code with clients."</div>
+                        <div class="testimonial-author">Marcus Williams</div>
+                        <div class="testimonial-role">Consultant</div>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-number">50K+</div>
+                        <div class="stat-label">Active Creators</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">2.5M+</div>
+                        <div class="stat-label">Content Shared</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">$5M+</div>
+                        <div class="stat-label">Paid Out</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="pricing-section">
+            <div class="container">
+                <h2 class="section-title">Simple Pricing</h2>
+                <p class="section-subtitle">Choose the plan that fits your needs</p>
+                
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <div class="pricing-name">Starter</div>
+                        <div class="pricing-description">Perfect for trying it out</div>
+                        <div class="pricing-amount">Free</div>
+                        <div class="pricing-period">Forever</div>
+                        <ul class="pricing-features">
+                            <li>5 pastes per day</li>
+                            <li>Content blur for free users</li>
+                            <li>Basic analytics</li>
+                            <li>24-hour expiration max</li>
+                            <li>Community support</li>
+                        </ul>
+                        <button class="btn btn-secondary">Get Started</button>
+                    </div>
+                    <div class="pricing-card featured">
+                        <div class="pricing-badge">Popular</div>
+                        <div class="pricing-name">Professional</div>
+                        <div class="pricing-description">For serious creators</div>
+                        <div class="pricing-amount">$9.99</div>
+                        <div class="pricing-period">per month</div>
+                        <ul class="pricing-features">
+                            <li>Unlimited pastes</li>
+                            <li>No blur restrictions</li>
+                            <li>Advanced analytics</li>
+                            <li>30-day expiration</li>
+                            <li>Priority support</li>
+                            <li>50% revenue share</li>
+                        </ul>
+                        <button class="btn btn-primary">Start Free Trial</button>
+                    </div>
+                    <div class="pricing-card">
+                        <div class="pricing-name">Enterprise</div>
+                        <div class="pricing-description">For teams & organizations</div>
+                        <div class="pricing-amount">Custom</div>
+                        <div class="pricing-period">contact sales</div>
+                        <ul class="pricing-features">
+                            <li>Everything in Professional</li>
+                            <li>Team collaboration</li>
+                            <li>Custom branding</li>
+                            <li>API access</li>
+                            <li>Dedicated support</li>
+                            <li>60% revenue share</li>
+                        </ul>
+                        <button class="btn btn-secondary">Contact Sales</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container cta-content">
+                <h2>Ready to Start Earning?</h2>
+                <p>Join thousands of creators making money from their content today. No credit card required.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="scrollToCreate()">Create Your First Paste</button>
+                    <button class="btn btn-secondary" onclick="openPremiumModal()">Explore Premium</button>
+                </div>
+            </div>
+        </section>
     </div>
 
     <!-- Dashboard Section -->
@@ -798,42 +1210,6 @@
             }, 1000);
         }
 
-        // Preview functionality
-        document.getElementById('pasteForm').addEventListener('input', function() {
-            const title = document.getElementById('pasteTitle').value;
-            const content = document.getElementById('pasteContent').value;
-            const accessLevel = document.getElementById('accessLevel').value;
-            
-            let previewHTML = '';
-            if (title) previewHTML += `<strong>${title}</strong><br><br>`;
-            if (content) previewHTML += content.substring(0, 200) + (content.length > 200 ? '...' : '');
-            
-            const previewContent = document.getElementById('previewContent');
-            previewContent.innerHTML = `<div class="preview-text">${previewHTML || 'Your content preview will appear here...'}</div>`;
-            
-            if (accessLevel === 'free') {
-                previewContent.classList.add('blurred');
-                const overlay = document.createElement('div');
-                overlay.className = 'blur-overlay';
-                overlay.innerHTML = '<p>🔒 Upgrade to Premium to view full content</p>';
-                previewContent.appendChild(overlay);
-            } else {
-                previewContent.classList.remove('blurred');
-                const overlay = previewContent.querySelector('.blur-overlay');
-                if (overlay) overlay.remove();
-            }
-        });
-
-        document.getElementById('pasteForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const title = document.getElementById('pasteTitle').value;
-            document.getElementById('viewCount').textContent = Math.floor(Math.random() * 500) + 10;
-            document.getElementById('earnings').textContent = '$' + (Math.random() * 50).toFixed(2);
-            alert('Paste created successfully: ' + title);
-            this.reset();
-            document.getElementById('previewContent').innerHTML = '<div class="preview-text">Your content preview will appear here...</div>';
-        });
-
         // Premium Modal
         function openPremiumModal() {
             document.getElementById('premiumModal').classList.add('active');
@@ -858,7 +1234,10 @@
         }
 
         function scrollToCreate() {
-            document.getElementById('pasteTitle').focus();
+            const pasteForm = document.getElementById('pasteForm');
+            if (pasteForm) {
+                pasteForm.scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
         // Charts
