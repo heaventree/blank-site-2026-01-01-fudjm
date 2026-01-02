@@ -1,1377 +1,1016 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ContentVault - Modern Content Monetization Platform</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #7c3aed;
-            --secondary: #3b82f6;
-            --dark: #0f172a;
-            --darker: #020617;
-            --card-bg: #1e293b;
-            --border: #334155;
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --success: #10b981;
-            --warning: #f59e0b;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, var(--darker) 0%, #1a1f3a 100%);
-            color: var(--text-primary);
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        /* Navigation */
-        nav {
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        nav a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s;
-            font-size: 0.95rem;
-        }
-
-        nav a:hover {
-            color: var(--primary);
-        }
-
-        .btn {
-            padding: 0.6rem 1.5rem;
-            border: none;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.95rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.3);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-secondary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-small {
-            padding: 0.4rem 1rem;
-            font-size: 0.85rem;
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 6rem 1rem 4rem;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary), #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.1;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin: 0 auto 2.5rem;
-            line-height: 1.6;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 3rem;
-        }
-
-        .hero-buttons .btn {
-            padding: 0.75rem 2rem;
-            font-size: 1rem;
-        }
-
-        /* Features Grid */
-        .features-section {
-            padding: 4rem 1rem;
-            background: rgba(30, 41, 59, 0.3);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .features-section .container {
-            text-align: center;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        .section-subtitle {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 3rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .feature-card {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(59, 130, 246, 0.1));
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s;
-            text-align: left;
-        }
-
-        .feature-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.2);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.75rem;
-            font-weight: 600;
-        }
-
-        .feature-card p {
-            color: var(--text-secondary);
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-
-        /* Social Proof Section */
-        .social-proof {
-            padding: 4rem 1rem;
-        }
-
-        .social-proof .container {
-            text-align: center;
-        }
-
-        .proof-title {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-        }
-
-        .proof-subtitle {
-            color: var(--text-secondary);
-            margin-bottom: 2.5rem;
-        }
-
-        .testimonials {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .testimonial {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.05), rgba(59, 130, 246, 0.05));
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem;
-            text-align: left;
-        }
-
-        .testimonial-text {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            font-style: italic;
-        }
-
-        .testimonial-author {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.25rem;
-        }
-
-        .testimonial-role {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 1rem;
-        }
-
-        /* Pricing Section */
-        .pricing-section {
-            padding: 4rem 1rem;
-            background: rgba(30, 41, 59, 0.3);
-            border-top: 1px solid var(--border);
-        }
-
-        .pricing-section .container {
-            text-align: center;
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .pricing-card {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(59, 130, 246, 0.1));
-            border: 1px solid var(--border);
-            border-radius: 1.5rem;
-            padding: 2.5rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s;
-            text-align: left;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .pricing-card.featured {
-            border-color: var(--primary);
-            transform: scale(1.05);
-        }
-
-        .pricing-card:hover {
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.2);
-        }
-
-        .pricing-badge {
-            position: absolute;
-            top: 1rem;
-            right: -2rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 0.5rem 2rem;
-            transform: rotate(45deg);
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-
-        .pricing-name {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .pricing-description {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .pricing-amount {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.25rem;
-        }
-
-        .pricing-period {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .pricing-features {
-            list-style: none;
-            margin-bottom: 2rem;
-            text-align: left;
-        }
-
-        .pricing-features li {
-            padding: 0.75rem 0;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 0.9rem;
-        }
-
-        .pricing-features li:before {
-            content: "✓";
-            color: var(--success);
-            font-weight: 700;
-            font-size: 1.1rem;
-            flex-shrink: 0;
-        }
-
-        .pricing-card .btn {
-            width: 100%;
-            padding: 0.75rem 1.5rem;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            padding: 4rem 1rem;
-            text-align: center;
-        }
-
-        .cta-content h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            font-weight: 800;
-        }
-
-        .cta-content p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Main Content */
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            padding: 2rem 1rem;
-            align-items: start;
-        }
-
-        /* Paste Creation Card */
-        .paste-card {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(59, 130, 246, 0.1));
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-        }
-
-        .paste-card h2 {
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 0.75rem;
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid var(--border);
-            border-radius: 0.5rem;
-            color: var(--text-primary);
-            font-family: inherit;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: rgba(30, 41, 59, 0.8);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .timer-display {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--success);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .timer-display .label {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .timer-display .time {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--success);
-            font-family: 'Courier New', monospace;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        /* Preview Card */
-        .preview-card {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(59, 130, 246, 0.1));
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-            height: fit-content;
-        }
-
-        .preview-card h2 {
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-        }
-
-        .preview-content {
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            min-height: 200px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .preview-content.blurred {
-            filter: blur(8px);
-            user-select: none;
-        }
-
-        .blur-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(15, 23, 42, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(4px);
-            border-radius: 0.75rem;
-        }
-
-        .blur-overlay p {
-            text-align: center;
-            color: var(--text-secondary);
-        }
-
-        .preview-text {
-            color: var(--text-secondary);
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-
-        .preview-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .stat-box {
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid var(--border);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            text-align: center;
-        }
-
-        .stat-box .label {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-box .value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Premium Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, var(--card-bg), rgba(59, 130, 246, 0.1));
-            border: 1px solid var(--border);
-            border-radius: 1.5rem;
-            padding: 3rem;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .modal-close:hover {
-            color: var(--primary);
-        }
-
-        .modal-content h2 {
-            margin-bottom: 1rem;
-            font-size: 2rem;
-        }
-
-        .modal-content p {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-
-        .features-list {
-            list-style: none;
-            margin-bottom: 2rem;
-        }
-
-        .features-list li {
-            padding: 0.75rem 0;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .features-list li:before {
-            content: "✓";
-            color: var(--success);
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
-        .pricing-box {
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .pricing-box .price {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-        }
-
-        .pricing-box .period {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* Dashboard */
-        .dashboard {
-            padding: 2rem 1rem;
-            display: none;
-        }
-
-        .dashboard.active {
-            display: block;
-        }
-
-        .dashboard-header {
-            margin-bottom: 2rem;
-        }
-
-        .dashboard-header h2 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .dashboard-card {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(59, 130, 246, 0.1));
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            backdrop-filter: blur(10px);
-        }
-
-        .dashboard-card h3 {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .dashboard-card .value {
-            font-size: 2rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-        }
-
-        .dashboard-card .change {
-            color: var(--success);
-            font-size: 0.85rem;
-        }
-
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .chart-container {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(59, 130, 246, 0.1));
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-        }
-
-        .chart-container h3 {
-            margin-bottom: 1.5rem;
-            font-size: 1.2rem;
-        }
-
-        canvas {
-            max-width: 100%;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            nav ul {
-                gap: 1rem;
-                font-size: 0.85rem;
-            }
-
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-
-            .hero {
-                padding: 3rem 1rem 2rem;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-            }
-
-            .hero-buttons .btn {
-                width: 100%;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .paste-card,
-            .preview-card {
-                padding: 1.5rem;
-            }
-
-            .modal-content {
-                padding: 2rem;
-            }
-
-            .charts-grid {
-                grid-template-columns: 1fr;
-            }
-
-            nav .container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            nav ul {
-                flex-direction: column;
-                width: 100%;
-                gap: 0.5rem;
-            }
-
-            nav a {
-                display: block;
-                padding: 0.5rem 0;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .pricing-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .pricing-card.featured {
-                transform: scale(1);
-            }
-
-            .testimonials {
-                grid-template-columns: 1fr;
-            }
-
-            .stats-row {
-                grid-template-columns: 1fr;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            .cta-content h2 {
-                font-size: 1.75rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 1.5rem;
-            }
-
-            .hero p {
-                font-size: 0.95rem;
-            }
-
-            .paste-card,
-            .preview-card {
-                padding: 1rem;
-            }
-
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stat-box {
-                padding: 0.75rem;
-            }
-
-            .pricing-card {
-                padding: 1.5rem;
-            }
-
-            .section-title {
-                font-size: 1.3rem;
-            }
-
-            .feature-icon {
-                font-size: 2.5rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Navigation -->
-    <nav>
-        <div class="container">
-            <div class="logo">ContentVault</div>
-            <ul>
-                <li><a href="#" onclick="showHome()">Home</a></li>
-                <li><a href="paste.html">Paste</a></li>
-                <li><a href="#" onclick="showDashboard()">Dashboard</a></li>
-                <li><a href="#" onclick="openPremiumModal()">Premium</a></li>
-                <li><button class="btn btn-primary btn-small" onclick="openPremiumModal()">Upgrade</button></li>
-            </ul>
+  <meta charset="UTF-8" />
+  <title>PAIST - Precision AI Systems & Tools | Enterprise AI Solutions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="PAIST delivers enterprise-grade AI systems and tools for organizations building intelligent applications. Precision engineering, scalable infrastructure, and responsible AI at every stage." />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0B0B12" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#5B4BFF',
+            secondary: '#EEF0FF',
+            accent: '#00E5A8',
+            'surface-dark': '#0B0B12',
+            'surface-elevated': '#141420',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            'soft-md': '0 18px 45px rgba(0,0,0,0.45)',
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .heading-font {
+      font-family: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+  </style>
+
+  <script type="application/ld+json">
+  [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "PAIST",
+    "description": "PAIST delivers enterprise-grade AI systems and tools for organizations building intelligent applications. Precision engineering, scalable infrastructure, and responsible AI at every stage.",
+    "url": "https://paist.ai"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "PAIST - Precision AI Systems & Tools | Enterprise AI Solutions",
+    "description": "PAIST delivers enterprise-grade AI systems and tools for organizations building intelligent applications. Precision engineering, scalable infrastructure, and responsible AI at every stage."
+  }
+]
+  </script>
+  </head>
+<body class="bg-surface-dark text-gray-100 antialiased scroll-smooth">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-surface-dark/80 backdrop-blur-xl border-b border-white/5">
+    <nav class="max-w-7xl mx-auto px-8 md:px-16 py-4 flex items-center justify-between gap-8">
+      <!-- Logo -->
+      <a href="#top" class="flex items-center gap-3 group">
+        <div class="relative">
+          <div class="h-9 w-9 rounded-lg bg-gradient-to-br from-primary via-indigo-400 to-accent flex items-center justify-center shadow-soft-md shadow-primary/50 transition-all duration-300 ease-out group-hover:scale-105 group-hover:shadow-xl group-hover:shadow-primary/60">
+            <i data-lucide="cpu" class="w-5 h-5 text-white"></i>
+          </div>
         </div>
+        <div class="flex flex-col">
+          <span class="heading-font text-lg font-semibold tracking-tight text-white">
+            PAIST
+          </span>
+          <span class="text-xs font-light text-gray-400 tracking-wide uppercase">
+            Enterprise AI Systems
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-10 text-sm font-light">
+        <a href="#features" class="text-gray-300 hover:text-white transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dark rounded">
+          Features
+        </a>
+        <a href="#benefits" class="text-gray-300 hover:text-white transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dark rounded">
+          Benefits
+        </a>
+        <a href="#testimonials" class="text-gray-300 hover:text-white transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dark rounded">
+          Testimonials
+        </a>
+        <a href="#about" class="text-gray-300 hover:text-white transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dark rounded">
+          About
+        </a>
+        <a href="#faq" class="text-gray-300 hover:text-white transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dark rounded">
+          FAQ
+        </a>
+        <a href="pricing.html" class="text-gray-300 hover:text-white transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dark rounded">
+          pricing
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button class="mobile-menu-button md:hidden inline-flex items-center justify-center h-10 w-10 rounded-md border border-white/10 bg-surface-elevated/60 text-gray-200 hover:bg-surface-elevated hover:text-white hover:border-white/20 transition-all duration-300 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dark" aria-label="Toggle navigation menu">
+        <i class="fa-solid fa-bars text-lg"></i>
+      </button>
     </nav>
 
-    <!-- Premium Modal -->
-    <div class="modal" id="premiumModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closePremiumModal()">×</button>
-            <h2>Upgrade to Premium</h2>
-            <p>Unlock unlimited content creation and exclusive features</p>
-            
-            <ul class="features-list">
-                <li>Unlimited paste creation</li>
-                <li>No content blur or restrictions</li>
-                <li>Advanced analytics dashboard</li>
-                <li>Custom expiration timers</li>
-                <li>Priority support</li>
-                <li>Revenue sharing program</li>
-            </ul>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu hidden md:hidden border-t border-white/5 bg-surface-dark/95 backdrop-blur-xl transition-all duration-300 ease-out">
+      <div class="max-w-7xl mx-auto px-8 md:px-16 py-4 flex flex-col gap-4 text-sm font-light">
+        <a href="#features" class="py-2 text-gray-200 hover:text-white hover:bg-white/5 rounded-md px-2 transition-all duration-300 ease-out">Features</a>
+        <a href="#benefits" class="py-2 text-gray-200 hover:text-white hover:bg-white/5 rounded-md px-2 transition-all duration-300 ease-out">Benefits</a>
+        <a href="#testimonials" class="py-2 text-gray-200 hover:text-white hover:bg-white/5 rounded-md px-2 transition-all duration-300 ease-out">Testimonials</a>
+        <a href="#about" class="py-2 text-gray-200 hover:text-white hover:bg-white/5 rounded-md px-2 transition-all duration-300 ease-out">About</a>
+        <a href="#faq" class="py-2 text-gray-200 hover:text-white hover:bg-white/5 rounded-md px-2 transition-all duration-300 ease-out">FAQ</a>
+        <a href="pricing.html" class="py-2 text-gray-200 hover:text-white hover:bg-white/5 rounded-md px-2 transition-all duration-300 ease-out">pricing</a>
+      </div>
+    </div>
+  </header>
 
-            <div class="pricing-box">
-                <div class="price">$9.99</div>
-                <div class="period">per month</div>
+  <main id="top" class="relative">
+
+    <!-- Background Decorative Elements -->
+    <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+      <div class="absolute -top-40 -right-20 h-80 w-80 bg-primary/20 blur-3xl rounded-full opacity-70"></div>
+      <div class="absolute top-1/3 -left-20 h-72 w-72 bg-accent/20 blur-3xl rounded-full opacity-60"></div>
+      <div class="absolute bottom-0 left-1/3 h-64 w-64 bg-indigo-500/20 blur-3xl rounded-full opacity-50"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden py-32 md:py-40">
+      <div class="max-w-7xl mx-auto px-8 md:px-16">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-20 items-center">
+          <!-- Hero Text -->
+          <div class="relative z-10 space-y-8">
+            <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-surface-elevated/70 px-4 py-1.5 shadow-md shadow-black/40 backdrop-blur-sm">
+              <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-white text-xs">
+                <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+              </span>
+              <p class="text-xs md:text-sm font-light text-gray-300 tracking-wide uppercase">
+                Enterprise-Grade AI Infrastructure
+              </p>
             </div>
 
-            <button class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">Start Premium Trial</button>
-            <button class="btn btn-secondary" style="width: 100%;" onclick="closePremiumModal()">Maybe Later</button>
+            <div class="space-y-4">
+              <h1 class="heading-font text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
+                PAIST<span class="text-primary">.</span><br />
+                <span class="text-gray-100">Precision AI Systems & Tools.</span>
+              </h1>
+              <p class="heading-font text-lg md:text-xl text-primary font-semibold tracking-tight">
+                Build, deploy, and scale intelligent applications with confidence.
+              </p>
+            </div>
+
+            <p class="text-gray-300 text-sm md:text-base font-light leading-relaxed max-w-xl">
+              PAIST is your complete platform for enterprise AI systems. From model optimization and infrastructure management to responsible AI governance, we provide the precision engineering and scalable tools your organization needs to build AI applications that deliver real value while maintaining security, compliance, and reliability at every stage.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+              <a href="https://paist.ai" target="_blank" rel="noopener" class="inline-flex items-center justify-center px-6 py-3 rounded bg-gradient-to-r from-primary to-accent text-white text-sm md:text-base font-medium shadow-md shadow-primary/40 hover:shadow-xl hover:shadow-primary/50 hover:scale-105 hover:brightness-110 transition-all duration-300 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/80 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dark">
+                Explore PAIST Platform
+                <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+              </a>
+              <div class="flex items-center gap-3 text-xs md:text-sm text-gray-400 font-light">
+                <i data-lucide="shield-check" class="w-4 h-4 text-accent"></i>
+                <span>Enterprise security. Production-ready. Fully scalable.</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-6 max-w-md pt-4">
+              <div class="border border-white/5 rounded-lg bg-surface-elevated/70 px-4 py-3 shadow-md shadow-black/40">
+                <p class="text-xs uppercase tracking-wide text-gray-400 font-light">Performance</p>
+                <p class="heading-font text-xl font-semibold text-white mt-1">99.9%</p>
+                <p class="text-[11px] text-gray-400 mt-1 leading-snug">Uptime SLA across all systems.</p>
+              </div>
+              <div class="border border-white/5 rounded-lg bg-surface-elevated/70 px-4 py-3 shadow-md shadow-black/40">
+                <p class="text-xs uppercase tracking-wide text-gray-400 font-light">Efficiency</p>
+                <p class="heading-font text-xl font-semibold text-white mt-1">-35%</p>
+                <p class="text-[11px] text-gray-400 mt-1 leading-snug">Reduction in inference costs.</p>
+              </div>
+              <div class="border border-white/5 rounded-lg bg-surface-elevated/70 px-4 py-3 shadow-md shadow-black/40">
+                <p class="text-xs uppercase tracking-wide text-gray-400 font-light">Compliance</p>
+                <p class="heading-font text-xl font-semibold text-white mt-1">100%</p>
+                <p class="text-[11px] text-gray-400 mt-1 leading-snug">Audit-ready and certified.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Visual -->
+          <div class="relative">
+            <div class="absolute -top-10 -right-6 h-40 w-40 rounded-full bg-gradient-to-br from-primary/60 via-indigo-500/40 to-accent/50 blur-3xl opacity-60"></div>
+            <div class="relative rounded-xl border border-white/10 bg-gradient-to-br from-white/5 via-surface-elevated/90 to-black/80 shadow-soft-md shadow-black/60 p-6 md:p-8 overflow-hidden backdrop-blur-xl">
+              <div class="absolute inset-0 opacity-[0.04] pointer-events-none" style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.4) 1px, transparent 0); background-size: 18px 18px;"></div>
+              <div class="relative space-y-6">
+                <!-- Top Bar -->
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-full bg-rose-500/80"></span>
+                    <span class="h-2.5 w-2.5 rounded-full bg-amber-400/80"></span>
+                    <span class="h-2.5 w-2.5 rounded-full bg-emerald-400/80"></span>
+                  </div>
+                  <span class="text-[11px] font-light text-gray-400 flex items-center gap-1.5">
+                    <i data-lucide="activity" class="w-3.5 h-3.5 text-accent"></i>
+                    AI Systems Dashboard
+                  </span>
+                </div>
+
+                <!-- Mocked Dashboard UI -->
+                <div class="space-y-4">
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="heading-font text-sm font-semibold text-gray-100 flex items-center gap-2">
+                      System Status
+                      <span class="inline-flex items-center gap-1 rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[10px] font-medium text-accent">
+                        <i data-lucide="check-circle" class="w-3 h-3"></i>
+                        Optimal
+                      </span>
+                    </span>
+                    <span class="text-[11px] text-gray-400 font-light">v2.4 • Live</span>
+                  </div>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="border border-white/8 rounded-lg bg-black/20 px-3.5 py-3 space-y-2">
+                      <p class="text-[11px] uppercase tracking-wide text-gray-400 font-light">
+                        Model Performance
+                      </p>
+                      <div class="flex items-center justify-between">
+                        <span class="heading-font text-lg font-semibold text-white">94.2%</span>
+                        <span class="flex items-center gap-1 text-[11px] text-emerald-400">
+                          <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+                          +12% vs baseline
+                        </span>
+                      </div>
+                      <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                        <div class="h-full w-[94%] bg-gradient-to-r from-primary to-accent rounded-full"></div>
+                      </div>
+                    </div>
+
+                    <div class="border border-white/8 rounded-lg bg-black/20 px-3.5 py-3 space-y-2">
+                      <p class="text-[11px] uppercase tracking-wide text-gray-400 font-light">
+                        System Health
+                      </p>
+                      <div class="flex items-center justify-between">
+                        <span class="heading-font text-lg font-semibold text-white">Healthy</span>
+                        <span class="flex items-center gap-1 text-[11px] text-emerald-400">
+                          <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+                          Secured
+                        </span>
+                      </div>
+                      <ul class="space-y-1 text-[11px] text-gray-300 font-light">
+                        <li class="flex items-center gap-1.5">
+                          <i data-lucide="check" class="w-3 h-3 text-accent"></i>
+                          All services operational
+                        </li>
+                        <li class="flex items-center gap-1.5">
+                          <i data-lucide="check" class="w-3 h-3 text-accent"></i>
+                          Compliance verified
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="border border-dashed border-primary/40 rounded-lg bg-primary/5 px-3.5 py-3 space-y-2">
+                    <div class="flex items-center justify-between">
+                      <p class="text-[11px] uppercase tracking-wide text-primary font-medium">
+                        Active Deployments
+                      </p>
+                      <span class="inline-flex items-center gap-1 rounded-full bg-black/40 px-2 py-0.5 text-[10px] text-gray-300 font-light">
+                        <i data-lucide="zap" class="w-3 h-3"></i>
+                        Real-time
+                      </span>
+                    </div>
+                    <p class="text-[11px] text-gray-200 font-light leading-relaxed">
+                      "Enterprise-grade infrastructure delivering AI models with 99.9% uptime, automatic scaling, and comprehensive monitoring across all production endpoints."
+                    </p>
+                  </div>
+
+                  <div class="flex items-center justify-between text-[11px] text-gray-400 font-light">
+                    <div class="flex items-center gap-3">
+                      <div class="flex -space-x-2">
+                        <span class="h-6 w-6 rounded-full bg-gradient-to-br from-primary to-indigo-500 border border-surface-dark/90"></span>
+                        <span class="h-6 w-6 rounded-full bg-gradient-to-br from-accent to-emerald-500 border border-surface-dark/90"></span>
+                      </div>
+                      <span>Multi-region deployment ready.</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <i data-lucide="lock" class="w-3.5 h-3.5 text-gray-500"></i>
+                      <span>End-to-end encrypted</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
+    </section>
 
-    <!-- Home Section -->
-    <div id="homeSection">
-        <!-- Hero -->
-        <section class="hero">
-            <div class="container">
-                <h1>Monetize Your Content</h1>
-                <p>Create, share, and earn from your content with custom timers, access control, and built-in analytics</p>
-                <div class="hero-buttons">
-                    <button class="btn btn-primary" onclick="scrollToCreate()">Start Creating</button>
-                    <button class="btn btn-secondary" onclick="openPremiumModal()">Learn More</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Features Section -->
-        <section class="features-section">
-            <div class="container">
-                <h2 class="section-title">Powerful Features</h2>
-                <p class="section-subtitle">Everything you need to create, share, and monetize your content</p>
-                
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">⏱️</div>
-                        <h3>Smart Timers</h3>
-                        <p>Set custom expiration times from 5 minutes to 30 days. Your content automatically expires and disappears.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">💰</div>
-                        <h3>Instant Earnings</h3>
-                        <p>Earn money every time someone views your content. Get paid daily with our transparent revenue sharing.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📊</div>
-                        <h3>Analytics Dashboard</h3>
-                        <p>Track views, clicks, engagement rates, and earnings in real-time with detailed performance metrics.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🔐</div>
-                        <h3>Access Control</h3>
-                        <p>Choose who sees your content - free users with blur, premium only, or fully public sharing.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">✨</div>
-                        <h3>Syntax Highlighting</h3>
-                        <p>Support for 50+ programming languages with beautiful code highlighting and formatting.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🚀</div>
-                        <h3>Lightning Fast</h3>
-                        <p>Content loads in milliseconds with our optimized CDN and global infrastructure.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Social Proof Section -->
-        <section class="social-proof">
-            <div class="container">
-                <h2 class="proof-title">Trusted by Creators</h2>
-                <p class="proof-subtitle">Join thousands of content creators earning money daily</p>
-                
-                <div class="testimonials">
-                    <div class="testimonial">
-                        <div class="testimonial-text">"ContentVault has completely changed how I share my work. I'm earning $500+ per month just from my code snippets!"</div>
-                        <div class="testimonial-author">Alex Johnson</div>
-                        <div class="testimonial-role">Software Developer</div>
-                    </div>
-                    <div class="testimonial">
-                        <div class="testimonial-text">"The analytics are incredible. I can see exactly which content performs best and optimize my strategy accordingly."</div>
-                        <div class="testimonial-author">Sarah Chen</div>
-                        <div class="testimonial-role">Technical Writer</div>
-                    </div>
-                    <div class="testimonial">
-                        <div class="testimonial-text">"Simple, elegant, and effective. ContentVault is the only platform I use for sharing sensitive code with clients."</div>
-                        <div class="testimonial-author">Marcus Williams</div>
-                        <div class="testimonial-role">Consultant</div>
-                    </div>
-                </div>
-
-                <div class="stats-row">
-                    <div class="stat-item">
-                        <div class="stat-number">50K+</div>
-                        <div class="stat-label">Active Creators</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">2.5M+</div>
-                        <div class="stat-label">Content Shared</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">$5M+</div>
-                        <div class="stat-label">Paid Out</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Pricing Section -->
-        <section class="pricing-section">
-            <div class="container">
-                <h2 class="section-title">Simple Pricing</h2>
-                <p class="section-subtitle">Choose the plan that fits your needs</p>
-                
-                <div class="pricing-grid">
-                    <div class="pricing-card">
-                        <div class="pricing-name">Starter</div>
-                        <div class="pricing-description">Perfect for trying it out</div>
-                        <div class="pricing-amount">Free</div>
-                        <div class="pricing-period">Forever</div>
-                        <ul class="pricing-features">
-                            <li>5 pastes per day</li>
-                            <li>Content blur for free users</li>
-                            <li>Basic analytics</li>
-                            <li>24-hour expiration max</li>
-                            <li>Community support</li>
-                        </ul>
-                        <button class="btn btn-secondary">Get Started</button>
-                    </div>
-                    <div class="pricing-card featured">
-                        <div class="pricing-badge">Popular</div>
-                        <div class="pricing-name">Professional</div>
-                        <div class="pricing-description">For serious creators</div>
-                        <div class="pricing-amount">$9.99</div>
-                        <div class="pricing-period">per month</div>
-                        <ul class="pricing-features">
-                            <li>Unlimited pastes</li>
-                            <li>No blur restrictions</li>
-                            <li>Advanced analytics</li>
-                            <li>30-day expiration</li>
-                            <li>Priority support</li>
-                            <li>50% revenue share</li>
-                        </ul>
-                        <button class="btn btn-primary">Start Free Trial</button>
-                    </div>
-                    <div class="pricing-card">
-                        <div class="pricing-name">Enterprise</div>
-                        <div class="pricing-description">For teams & organizations</div>
-                        <div class="pricing-amount">Custom</div>
-                        <div class="pricing-period">contact sales</div>
-                        <ul class="pricing-features">
-                            <li>Everything in Professional</li>
-                            <li>Team collaboration</li>
-                            <li>Custom branding</li>
-                            <li>API access</li>
-                            <li>Dedicated support</li>
-                            <li>60% revenue share</li>
-                        </ul>
-                        <button class="btn btn-secondary">Contact Sales</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="cta-section">
-            <div class="container cta-content">
-                <h2>Ready to Start Earning?</h2>
-                <p>Join thousands of creators making money from their content today. No credit card required.</p>
-                <div class="hero-buttons">
-                    <button class="btn btn-primary" onclick="scrollToCreate()">Create Your First Paste</button>
-                    <button class="btn btn-secondary" onclick="openPremiumModal()">Explore Premium</button>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Dashboard Section -->
-    <div id="dashboardSection" class="dashboard">
-        <div class="container">
-            <div class="dashboard-header">
-                <h2>Creator Dashboard</h2>
-                <p style="color: var(--text-secondary);">Track your content performance and earnings</p>
-            </div>
-
-            <div class="dashboard-grid">
-                <div class="dashboard-card">
-                    <h3>Total Earnings</h3>
-                    <div class="value">$1,245.50</div>
-                    <div class="change">↑ 12% from last month</div>
-                </div>
-                <div class="dashboard-card">
-                    <h3>Total Views</h3>
-                    <div class="value">24,580</div>
-                    <div class="change">↑ 8% from last month</div>
-                </div>
-                <div class="dashboard-card">
-                    <h3>Active Pastes</h3>
-                    <div class="value">18</div>
-                    <div class="change">3 created this week</div>
-                </div>
-                <div class="dashboard-card">
-                    <h3>Avg. CTR</h3>
-                    <div class="value">4.2%</div>
-                    <div class="change">↑ 0.5% from last month</div>
-                </div>
-            </div>
-
-            <div class="charts-grid">
-                <div class="chart-container">
-                    <h3>Earnings Trend</h3>
-                    <canvas id="earningsChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3>Views by Day</h3>
-                    <canvas id="viewsChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3>Revenue by Content Type</h3>
-                    <canvas id="revenueChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3>User Engagement</h3>
-                    <canvas id="engagementChart"></canvas>
-                </div>
-            </div>
+    <!-- Features Section -->
+    <section id="features" class="py-20 md:py-32 relative">
+      <div class="max-w-7xl mx-auto px-8 md:px-16">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-10 md:gap-16 mb-12 md:mb-16">
+          <div class="space-y-4 max-w-xl">
+            <h2 class="heading-font text-3xl md:text-4xl font-bold tracking-tight text-white">
+              Complete AI systems for enterprise-grade applications.
+            </h2>
+            <p class="text-sm md:text-base text-gray-300 font-light leading-relaxed">
+              PAIST provides the full stack of tools and infrastructure you need to build, optimize, and operate intelligent applications at scale. From model training to inference optimization, security, and governance—everything is integrated and ready for production.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-3 text-xs md:text-sm font-light">
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-surface-elevated/60 px-3 py-1 text-gray-300">
+              <i data-lucide="cpu" class="w-3.5 h-3.5 text-primary"></i>
+              Optimized performance
+            </span>
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-surface-elevated/60 px-3 py-1 text-gray-300">
+              <i data-lucide="target" class="w-3.5 h-3.5 text-accent"></i>
+              Enterprise focus
+            </span>
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-surface-elevated/60 px-3 py-1 text-gray-300">
+              <i data-lucide="layers" class="w-3.5 h-3.5 text-indigo-400"></i>
+              Fully integrated
+            </span>
+          </div>
         </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16">
+          <!-- Feature 1 -->
+          <article class="group relative border border-white/10 rounded-lg bg-gradient-to-b from-white/5 via-surface-elevated/90 to-black/80 shadow-md shadow-black/50 hover:shadow-xl hover:shadow-black/70 hover:scale-[1.02] transition-all duration-300 ease-out overflow-hidden">
+            <div class="absolute inset-0 opacity-[0.04] pointer-events-none" style="background-image: linear-gradient(120deg, rgba(91,75,255,0.45) 0%, transparent 40%, transparent 60%, rgba(0,229,168,0.45) 100%);"></div>
+            <div class="relative p-7 md:p-8 space-y-5">
+              <div class="inline-flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-br from-primary to-indigo-500 text-white shadow-md shadow-primary/40 group-hover:shadow-xl group-hover:shadow-primary/60 transition-all duration-300 ease-out">
+                <i data-lucide="zap" class="w-5 h-5"></i>
+              </div>
+              <div class="space-y-2">
+                <h3 class="heading-font text-xl font-semibold text-white tracking-tight">
+                  Model Optimization Engine
+                </h3>
+                <p class="text-sm text-gray-300 font-light leading-relaxed">
+                  Automatically optimize your AI models for speed, efficiency, and cost. PAIST's intelligent engine reduces inference latency by up to 70% while maintaining accuracy, letting you deploy sophisticated models at scale without breaking the budget.
+                </p>
+              </div>
+              <ul class="space-y-2 text-xs text-gray-300 font-light">
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 mt-[2px] text-accent"></i>
+                  <span>Quantization, pruning, and distillation strategies tailored to your workload.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 mt-[2px] text-accent"></i>
+                  <span>Real-time performance monitoring with automated rollback on degradation.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 mt-[2px] text-accent"></i>
+                  <span>Multi-hardware target support: GPUs, CPUs, and edge accelerators.</span>
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- Feature 2 -->
+          <article class="group relative border border-white/10 rounded-lg bg-gradient-to-b from-white/5 via-surface-elevated/90 to-black/80 shadow-md shadow-black/50 hover:shadow-xl hover:shadow-black/70 hover:scale-[1.02] transition-all duration-300 ease-out overflow-hidden">
+            <div class="absolute inset-0 opacity-[0.04] pointer-events-none" style="background-image: linear-gradient(150deg, rgba(0,229,168,0.45) 0%, transparent 50%, rgba(91,75,255,0.45) 100%);"></div>
+            <div class="relative p-7 md:p-8 space-y-5">
+              <div class="inline-flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-br from-accent to-emerald-500 text-surface-dark shadow-md shadow-emerald-400/40 group-hover:shadow-xl group-hover:shadow-emerald-400/60 transition-all duration-300 ease-out">
+                <i data-lucide="shield-check" class="w-5 h-5"></i>
+              </div>
+              <div class="space-y-2">
+                <h3 class="heading-font text-xl font-semibold text-white tracking-tight">
+                  Responsible AI Governance
+                </h3>
+                <p class="text-sm text-gray-300 font-light leading-relaxed">
+                  Build trustworthy AI systems with built-in governance, bias detection, and explainability. PAIST ensures your models are fair, transparent, and compliant with regulatory requirements across all jurisdictions.
+                </p>
+              </div>
+              <ul class="space-y-2 text-xs text-gray-300 font-light">
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 mt-[2px] text-accent"></i>
+                  <span>Automated bias detection and mitigation across training and inference.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 mt-[2px] text-accent"></i>
+                  <span>Model interpretability and explainability dashboards for audit trails.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 mt-[2px] text-accent"></i>
+                  <span>Compliance frameworks for GDPR, CCPA, and emerging AI regulations.</span>
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- Feature 3 -->
+          <article class="group relative border border-white/10 rounded-lg bg-gradient-to-b from-white/5 via-surface-elevated/90 to-black/80 shadow-md shadow-black/50 hover:shadow-xl hover:shadow-black/70 hover:scale-[1.02] transition-all duration-300 ease-out overflow-hidden">
+            <div class="absolute inset-0 opacity-[0.045] pointer-events-none" style="background-image: linear-gradient(200deg, rgba(91,75,255,0.5) 0%, rgba(0,229,168,0.3) 35%, transparent 65%);"></div>
+            <div class="relative p-7 md:p-8 space-y-5">
+              <div class="inline-flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-br from-sky-500 to-primary text-white shadow-md shadow-sky-400/40 group-hover:shadow-xl group-hover:shadow-sky-400/60 transition-all duration-300 ease-out">
+                <i data-lucide="server" class="w-5 h-5"></i>
+              </div>
+              <div class="space-y-2">
+                <h3 class="heading-font text-xl font-semibold text-white tracking-tight">
+                  Scalable Infrastructure
+                </h3>
+                <p class="text-sm text-gray-300 font-light leading-relaxed">
+                  Deploy and manage AI workloads across cloud, on-premise, and hybrid environments. PAIST's infrastructure automatically scales to handle millions of inferences while maintaining sub-100ms latency and enterprise-grade security.
+                </p>
+              </div>
+              <ul class="space-y-2 text-xs text-gray-300 font-light">
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 mt-[2px] text-accent"></i>
+                  <span>Multi-cloud orchestration with automatic failover and load balancing.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 mt-[2px] text-accent"></i>
+                  <span>Containerized deployment with Kubernetes-native support and GitOps workflows.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 mt-[2px] text-accent"></i>
+                  <span>End-to-end encryption, audit logging, and compliance monitoring built-in.</span>
+                </li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="py-20 md:py-32 border-t border-white/5 bg-gradient-to-b from-black/40 via-surface-dark to-black/60">
+      <div class="max-w-7xl mx-auto px-8 md:px-16">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-start">
+          <div class="space-y-6">
+            <h2 class="heading-font text-3xl md:text-4xl font-bold tracking-tight text-white">
+              Enterprise AI that delivers measurable business impact.
+            </h2>
+            <p class="text-sm md:text-base text-gray-300 font-light leading-relaxed">
+              PAIST helps organizations accelerate AI adoption while reducing operational complexity, risk, and cost. Move from experimental AI to production-grade systems that drive competitive advantage.
+            </p>
+            <div class="space-y-4">
+              <div class="flex items-start gap-3">
+                <div class="mt-1">
+                  <i data-lucide="zap" class="w-5 h-5 text-accent"></i>
+                </div>
+                <div>
+                  <h3 class="heading-font text-base md:text-lg font-semibold text-white">
+                    Faster Time to Value
+                  </h3>
+                  <p class="text-sm text-gray-300 font-light leading-relaxed">
+                    Deploy AI models to production in weeks, not months. PAIST's integrated platform eliminates the complexity of building custom infrastructure, letting your teams focus on business logic and model innovation instead of DevOps and integration work.
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div class="mt-1">
+                  <i data-lucide="trending-down" class="w-5 h-5 text-primary"></i>
+                </div>
+                <div>
+                  <h3 class="heading-font text-base md:text-lg font-semibold text-white">
+                    Reduced Operating Costs
+                  </h3>
+                  <p class="text-sm text-gray-300 font-light leading-relaxed">
+                    Cut infrastructure and operational expenses by 40-60% through intelligent resource optimization, automated scaling, and efficient model serving. PAIST handles the complexity so you pay only for what you use.
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div class="mt-1">
+                  <i data-lucide="lock" class="w-5 h-5 text-indigo-400"></i>
+                </div>
+                <div>
+                  <h3 class="heading-font text-base md:text-lg font-semibold text-white">
+                    Enterprise Security & Compliance
+                  </h3>
+                  <p class="text-sm text-gray-300 font-light leading-relaxed">
+                    Meet regulatory requirements with built-in governance, encryption, audit logging, and compliance frameworks. PAIST ensures your AI systems are secure, auditable, and ready for enterprise deployment from day one.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <div class="border border-primary/30 rounded-lg bg-primary/10 backdrop-blur-sm p-6 md:p-7 shadow-md shadow-primary/30">
+              <div class="flex items-center justify-between gap-4 mb-3">
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex h-8 w-8 items-center justify-center rounded-md bg-gradient-to-br from-primary to-accent text-white">
+                    <i data-lucide="activity" class="w-4 h-4"></i>
+                  </span>
+                  <p class="heading-font text-sm font-semibold text-white">
+                    Platform Impact Summary
+                  </p>
+                </div>
+                <span class="text-[11px] text-secondary/80 font-light uppercase tracking-wide">
+                  Last 12 months
+                </span>
+              </div>
+              <div class="grid grid-cols-2 gap-4 text-xs text-gray-200 font-light">
+                <div class="space-y-1">
+                  <p class="text-gray-400 uppercase tracking-wide text-[10px]">Cost Reduction</p>
+                  <p class="heading-font text-xl font-semibold text-white">-48%</p>
+                  <p class="text-[11px] text-gray-300 leading-snug">Average savings in infrastructure and operational costs.</p>
+                </div>
+                <div class="space-y-1">
+                  <p class="text-gray-400 uppercase tracking-wide text-[10px]">Deployment Speed</p>
+                  <p class="heading-font text-xl font-semibold text-white">+5x</p>
+                  <p class="text-[11px] text-gray-300 leading-snug">Faster time from model to production.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="border border-white/10 rounded-lg bg-surface-elevated/80 p-6 md:p-7 shadow-md shadow-black/50 space-y-4">
+              <h3 class="heading-font text-base md:text-lg font-semibold text-white flex items-center gap-2">
+                Built for the modern AI organization.
+                <span class="inline-flex items-center gap-1 rounded-full bg-black/60 border border-white/10 text-[10px] px-2 py-0.5 font-light text-gray-300">
+                  <i data-lucide="users" class="w-3 h-3"></i>
+                  Cross-functional
+                </span>
+              </h3>
+              <p class="text-sm text-gray-300 font-light leading-relaxed">
+                PAIST unifies data scientists, ML engineers, DevOps teams, and product managers around a single platform. Everyone has visibility into model performance, infrastructure health, and compliance status—enabling faster iteration and better decision-making.
+              </p>
+              <ul class="space-y-2 text-xs text-gray-300 font-light">
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-accent"></i>
+                  Unified platform for training, optimization, and deployment.
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-accent"></i>
+                  Complete observability and governance across the entire ML lifecycle.
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-accent"></i>
+                  Confidence that your AI systems are secure, fair, and production-ready.
+                </li>
+              </ul>
+            </div>
+
+            <div class="flex flex-wrap gap-3 text-xs font-light text-gray-400">
+              <div class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-surface-dark/80 px-3 py-1">
+                <i data-lucide="zap" class="w-3.5 h-3.5 text-accent"></i>
+                Optimized for performance at scale
+              </div>
+              <div class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-surface-dark/80 px-3 py-1">
+                <i data-lucide="shield" class="w-3.5 h-3.5 text-primary"></i>
+                Enterprise-grade security
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section with Background Image -->
+    <section class="relative py-20 md:py-32">
+      <div class="absolute inset-0">
+        <div class="absolute inset-0" style="background-image: url('https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center;"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/75 to-black/70"></div>
+      </div>
+      <div class="relative max-w-7xl mx-auto px-8 md:px-16">
+        <div class="max-w-3xl space-y-8">
+          <div class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/30 px-4 py-1.5">
+            <i data-lucide="rocket" class="w-4 h-4 text-accent"></i>
+            <span class="text-xs md:text-sm font-light tracking-wide text-secondary">Deploy enterprise AI in weeks, not quarters.</span>
+          </div>
+          <h2 class="heading-font text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
+            Transform your AI strategy into production systems that scale.
+          </h2>
+          <p class="text-sm md:text-base text-gray-200 font-light leading-relaxed max-w-2xl">
+            PAIST provides the complete platform, infrastructure, and governance you need to build AI applications that deliver real business value. From optimization to deployment to compliance—everything is integrated, secure, and ready for enterprise.
+          </p>
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <a href="https://paist.ai" target="_blank" rel="noopener" class="inline-flex items-center justify-center px-6 py-3 rounded bg-gradient-to-r from-primary to-accent text-white text-sm md:text-base font-medium shadow-md shadow-primary/40 hover:shadow-xl hover:shadow-primary/60 hover:scale-105 hover:brightness-110 transition-all duration-300 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/80 focus-visible:ring-offset-2 focus-visible:ring-offset-black">
+              Get Started with PAIST
+              <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+            </a>
+            <div class="flex flex-wrap gap-3 text-xs md:text-sm font-light text-gray-200">
+              <span class="inline-flex items-center gap-1.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-accent"></i>
+                Works with your existing stack
+              </span>
+              <span class="inline-flex items-center gap-1.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-accent"></i>
+                Enterprise support included
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 md:py-32 bg-gradient-to-b from-black/70 via-surface-dark to-black/80 border-t border-white/5">
+      <div class="max-w-7xl mx-auto px-8 md:px-16">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-10 md:gap-16 mb-12 md:mb-16">
+          <div class="space-y-4 max-w-xl">
+            <h2 class="heading-font text-3xl md:text-4xl font-bold tracking-tight text-white">
+              Trusted by leading organizations building with AI.
+            </h2>
+            <p class="text-sm md:text-base text-gray-300 font-light leading-relaxed">
+              Organizations across finance, healthcare, technology, and enterprise sectors rely on PAIST to build, deploy, and scale AI systems with confidence. Here is what they say about the impact.
+            </p>
+          </div>
+          <div class="text-xs md:text-sm font-light text-gray-400 flex flex-col items-start gap-1">
+            <span class="inline-flex items-center gap-1.5">
+              <i data-lucide="star" class="w-4 h-4 text-amber-400"></i>
+              Rated 4.8/5 by enterprise customers
+            </span>
+            <span class="inline-flex items-center gap-1.5">
+              <i data-lucide="shield-check" class="w-4 h-4 text-accent"></i>
+              Trusted for mission-critical AI systems
+            </span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
+          <!-- Testimonial 1 -->
+          <article class="group border border-white/10 rounded-lg bg-surface-elevated/80 p-6 shadow-md shadow-black/60 hover:shadow-xl hover:shadow-black/80 hover:scale-[1.02] transition-all duration-300 ease-out flex flex-col justify-between min-h-full">
+            <div class="space-y-4">
+              <div class="flex items-center gap-2 text-amber-400 text-xs">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <p class="text-sm text-gray-200 font-light leading-relaxed">
+                "PAIST cut our model deployment time from 6 months to 6 weeks. The optimization engine alone reduced our inference costs by 45%. We can now iterate and deploy new models with confidence."
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+              <div>
+                <p class="heading-font text-sm font-semibold text-white">Sarah Johnson</p>
+                <p class="text-xs text-gray-400 font-light">VP of AI, FinTech Corp</p>
+              </div>
+              <div class="inline-flex items-center justify-center h-9 w-9 rounded-full bg-gradient-to-br from-primary to-indigo-500 text-white">
+                <i data-lucide="user" class="w-4 h-4"></i>
+              </div>
+            </div>
+          </article>
+
+          <!-- Testimonial 2 -->
+          <article class="group border border-white/10 rounded-lg bg-surface-elevated/80 p-6 shadow-md shadow-black/60 hover:shadow-xl hover:shadow-black/80 hover:scale-[1.02] transition-all duration-300 ease-out flex flex-col justify-between min-h-full">
+            <div class="space-y-4">
+              <div class="flex items-center gap-2 text-amber-400 text-xs">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <p class="text-sm text-gray-200 font-light leading-relaxed">
+                "The governance and compliance features gave us confidence to deploy AI in regulated environments. PAIST handles the complexity of audit trails, bias detection, and regulatory compliance automatically."
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+              <div>
+                <p class="heading-font text-sm font-semibold text-white">Dr. Michael Chen</p>
+                <p class="text-xs text-gray-400 font-light">Chief Data Officer, Healthcare Systems</p>
+              </div>
+              <div class="inline-flex items-center justify-center h-9 w-9 rounded-full bg-gradient-to-br from-accent to-emerald-500 text-surface-dark">
+                <i data-lucide="shield-check" class="w-4 h-4"></i>
+              </div>
+            </div>
+          </article>
+
+          <!-- Testimonial 3 -->
+          <article class="group border border-white/10 rounded-lg bg-surface-elevated/80 p-6 shadow-md shadow-black/60 hover:shadow-xl hover:shadow-black/80 hover:scale-[1.02] transition-all duration-300 ease-out flex flex-col justify-between min-h-full">
+            <div class="space-y-4">
+              <div class="flex items-center gap-2 text-amber-400 text-xs">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <p class="text-sm text-gray-200 font-light leading-relaxed">
+                "The multi-cloud orchestration is seamless. We run models across AWS, Azure, and on-premise infrastructure with zero friction. PAIST's automatic failover and load balancing have been rock-solid."
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+              <div>
+                <p class="heading-font text-sm font-semibold text-white">James Rodriguez</p>
+                <p class="text-xs text-gray-400 font-light">Director of Infrastructure, Enterprise Tech</p>
+              </div>
+              <div class="inline-flex items-center justify-center h-9 w-9 rounded-full bg-gradient-to-br from-purple-500 to-primary text-white">
+                <i data-lucide="server" class="w-4 h-4"></i>
+              </div>
+            </div>
+          </article>
+
+          <!-- Testimonial 4 -->
+          <article class="group border border-white/10 rounded-lg bg-surface-elevated/80 p-6 shadow-md shadow-black/60 hover:shadow-xl hover:shadow-black/80 hover:scale-[1.02] transition-all duration-300 ease-out flex flex-col justify-between min-h-full">
+            <div class="space-y-4">
+              <div class="flex items-center gap-2 text-amber-400 text-xs">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <p class="text-sm text-gray-200 font-light leading-relaxed">
+                "PAIST unified our data science and engineering teams around a single platform. The observability and monitoring tools give us complete visibility into model performance and infrastructure health."
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+              <div>
+                <p class="heading-font text-sm font-semibold text-white">Emma Williams</p>
+                <p class="text-xs text-gray-400 font-light">Head of ML, Digital Innovation</p>
+              </div>
+              <div class="inline-flex items-center justify-center h-9 w-9 rounded-full bg-gradient-to-br from-rose-500 to-orange-500 text-white">
+                <i data-lucide="activity" class="w-4 h-4"></i>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-20 md:py-32">
+      <div class="max-w-7xl mx-auto px-8 md:px-16">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 md:gap-16 items-start">
+          <div class="space-y-4">
+            <h2 class="heading-font text-3xl md:text-4xl font-bold tracking-tight text-white">
+              About PAIST
+            </h2>
+            <p class="text-sm text-gray-400 font-light leading-relaxed">
+              From researchers and engineers who have built AI at scale.
+            </p>
+          </div>
+          <div class="lg:col-span-2 space-y-6">
+            <p class="text-sm md:text-base text-gray-300 font-light leading-relaxed">
+              PAIST was founded by a team of AI researchers, ML engineers, and infrastructure experts who spent years building AI systems at leading technology companies and research institutions. We saw firsthand how much complexity, cost, and risk organizations face when trying to move AI from research to production. We built PAIST to eliminate that friction—to give organizations the tools, infrastructure, and governance they need to build enterprise-grade AI systems with confidence.
+            </p>
+            <p class="text-sm md:text-base text-gray-300 font-light leading-relaxed">
+              Our mission is to democratize enterprise AI. We believe that every organization should have access to the same level of sophistication in model optimization, infrastructure management, and responsible AI governance that was previously only available to the largest tech companies. PAIST combines cutting-edge research with practical engineering to deliver a platform that is both powerful and approachable. We are committed to building AI systems that are not just effective, but fair, transparent, secure, and compliant with the highest standards.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 md:py-32 bg-gradient-to-b from-black/75 via-surface-dark to-black/80 border-t border-white/5">
+      <div class="max-w-7xl mx-auto px-8 md:px-16">
+        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-10 md:gap-16 mb-10 md:mb-14">
+          <div class="space-y-4 max-w-xl">
+            <h2 class="heading-font text-3xl md:text-4xl font-bold tracking-tight text-white">
+              Frequently Asked Questions
+            </h2>
+            <p class="text-sm md:text-base text-gray-300 font-light leading-relaxed">
+              Common questions about PAIST, how it integrates with your existing systems, and how it helps organizations build and scale enterprise AI applications.
+            </p>
+          </div>
+          <div class="text-xs md:text-sm font-light text-gray-400 max-w-sm">
+            <p class="flex items-start gap-2">
+              <i data-lucide="info" class="w-4 h-4 mt-[2px] text-primary"></i>
+              <span>You can start with a single use case or model to evaluate PAIST before expanding across your organization.</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <!-- FAQ Item 1 -->
+          <div class="faq-item border border-white/10 rounded-lg bg-surface-elevated/80 shadow-md shadow-black/60 overflow-hidden">
+            <button class="faq-question w-full flex items-center justify-between gap-4 px-5 md:px-6 py-4 md:py-5 text-left cursor-pointer hover:bg-white/5 transition-all duration-300 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dark">
+              <div class="flex items-start gap-3">
+                <i data-lucide="zap" class="w-5 h-5 text-accent mt-0.5"></i>
+                <span class="heading-font text-sm md:text-base font-semibold text-white">
+                  How does PAIST integrate with our existing ML stack?
+                </span>
+              </div>
+              <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-gray-300 transition-transform duration-300 ease-out"></i>
+            </button>
+            <div class="faq-answer hidden px-5 md:px-6 pb-5 md:pb-6 text-sm text-gray-300 font-light leading-relaxed border-t border-white/5">
+              <p class="pt-1.5">
+                PAIST is designed to work alongside your existing tools and frameworks. Whether you use TensorFlow, PyTorch, scikit-learn, or proprietary models, PAIST can optimize, deploy, and manage them. We provide APIs and SDKs for seamless integration with your training pipelines, serving infrastructure, and monitoring systems. Most organizations integrate PAIST incrementally, starting with one model or use case.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ Item 2 -->
+          <div class="faq-item border border-white/10 rounded-lg bg-surface-elevated/80 shadow-md shadow-black/60 overflow-hidden">
+            <button class="faq-question w-full flex items-center justify-between gap-4 px-5 md:px-6 py-4 md:py-5 text-left cursor-pointer hover:bg-white/5 transition-all duration-300 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dark">
+              <div class="flex items-start gap-3">
+                <i data-lucide="shield-check" class="w-5 h-5 text-primary mt-0.5"></i>
+                <span class="heading-font text-sm md:text-base font-semibold text-white">
+                  What compliance and regulatory standards does PAIST support?
+                </span>
+              </div>
+              <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-gray-300 transition-transform duration-300 ease-out"></i>
+            </button>
+            <div class="faq-answer hidden px-5 md:px-6 pb-5 md:pb-6 text-sm text-gray-300 font-light leading-relaxed border-t border-white/5">
+              <p class="pt-1.5">
+                PAIST supports compliance with GDPR, CCPA, HIPAA, SOC 2, ISO 27001, and emerging AI-specific regulations like the EU AI Act. We provide built-in audit logging, data governance, bias detection, and explainability tools to help you meet regulatory requirements. Our compliance frameworks are continuously updated as regulations evolve, ensuring your AI systems remain compliant.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ Item 3 -->
+          <div class="faq-item border border-white/10 rounded-lg bg-surface-elevated/80 shadow-md shadow-black/60 overflow-hidden">
+            <button class="faq-question w-full flex items-center justify-between gap-4 px-5 md:px-6 py-4 md:py-5 text-left cursor-pointer hover:bg-white/5 transition-all duration-300 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dark">
+              <div class="flex items-start gap-3">
+                <i data-lucide="server" class="w-5 h-5 text-accent mt-0.5"></i>
+                <span class="heading-font text-sm md:text-base font-semibold text-white">
+                  Can PAIST run in our on-premise or hybrid environment?
+                </span>
+              </div>
+              <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-gray-300 transition-transform duration-300 ease-out"></i>
+            </button>
+            <div class="faq-answer hidden px-5 md:px-6 pb-5 md:pb-6 text-sm text-gray-300 font-light leading-relaxed border-t border-white/5">
+              <p class="pt-1.5">
+                Yes. PAIST supports deployment across cloud, on-premise, and hybrid environments. We offer containerized deployments with Kubernetes support, so you can run PAIST on AWS, Azure, GCP, or your own infrastructure. Many enterprise customers use PAIST to orchestrate models across multiple environments with automatic failover and load balancing.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ Item 4 -->
+          <div class="faq-item border border-white/10 rounded-lg bg-surface-elevated/80 shadow-md shadow-black/60 overflow-hidden">
+            <button class="faq-question w-full flex items-center justify-between gap-4 px-5 md:px-6 py-4 md:py-5 text-left cursor-pointer hover:bg-white/5 transition-all duration-300 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dark">
+              <div class="flex items-start gap-3">
+                <i data-lucide="trending-down" class="w-5 h-5 text-indigo-400 mt-0.5"></i>
+                <span class="heading-font text-sm md:text-base font-semibold text-white">
+                  How much can we reduce costs with PAIST's optimization engine?
+                </span>
+              </div>
+              <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-gray-300 transition-transform duration-300 ease-out"></i>
+            </button>
+            <div class="faq-answer hidden px-5 md:px-6 pb-5 md:pb-6 text-sm text-gray-300 font-light leading-relaxed border-t border-white/5">
+              <p class="pt-1.5">
+                On average, customers see 35-50% reductions in inference costs through a combination of model optimization (quantization, pruning, distillation), intelligent resource allocation, and automatic scaling. Results vary based on your specific models and workloads. We provide a cost analysis tool to estimate savings for your use cases before deployment.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ Item 5 -->
+          <div class="faq-item border border-white/10 rounded-lg bg-surface-elevated/80 shadow-md shadow-black/60 overflow-hidden">
+            <button class="faq-question w-full flex items-center justify-between gap-4 px-5 md:px-6 py-4 md:py-5 text-left cursor-pointer hover:bg-white/5 transition-all duration-300 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dark">
+              <div class="flex items-start gap-3">
+                <i data-lucide="rocket" class="w-5 h-5 text-primary mt-0.5"></i>
+                <span class="heading-font text-sm md:text-base font-semibold text-white">
+                  What kind of support and training does PAIST provide?
+                </span>
+              </div>
+              <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-gray-300 transition-transform duration-300 ease-out"></i>
+            </button>
+            <div class="faq-answer hidden px-5 md:px-6 pb-5 md:pb-6 text-sm text-gray-300 font-light leading-relaxed border-t border-white/5">
+              <p class="pt-1.5">
+                PAIST includes comprehensive documentation, video tutorials, and API reference guides. Enterprise customers receive dedicated support engineers, custom onboarding, and training sessions for your team. We also offer professional services to help you optimize your models, design your infrastructure, and implement governance best practices.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA Strip -->
+    <section class="py-12 md:py-16 border-t border-white/5 bg-black/80">
+      <div class="max-w-7xl mx-auto px-8 md:px-16 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10">
+        <div class="space-y-2 max-w-xl">
+          <h3 class="heading-font text-xl md:text-2xl font-semibold text-white tracking-tight">
+            Ready to build enterprise-grade AI systems?
+          </h3>
+          <p class="text-sm md:text-base text-gray-300 font-light">
+            Join organizations across industries using PAIST to deploy, optimize, and scale AI with confidence.
+          </p>
+        </div>
+        <div class="flex flex-col items-start md:items-end gap-3">
+          <a href="https://paist.ai" target="_blank" rel="noopener" class="inline-flex items-center justify-center px-6 py-3 rounded bg-gradient-to-r from-primary to-accent text-white text-sm md:text-base font-medium shadow-md shadow-primary/40 hover:shadow-xl hover:shadow-primary/60 hover:scale-105 hover:brightness-110 transition-all duration-300 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/80 focus-visible:ring-offset-2 focus-visible:ring-offset-black">
+            Visit paist.ai
+            <i data-lucide="external-link" class="w-4 h-4 ml-2"></i>
+          </a>
+          <p class="text-[11px] text-gray-400 font-light">
+            Questions? Contact us at <span class="text-secondary">hello@paist.ai</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/5 bg-black/90">
+    <div class="max-w-7xl mx-auto px-8 md:px-16 py-8 md:py-10">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-6">
+        <div class="flex items-center gap-3">
+          <div class="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white">
+            <i data-lucide="cpu" class="w-4 h-4"></i>
+          </div>
+          <div class="flex flex-col">
+            <span class="heading-font text-sm font-semibold text-white">PAIST</span>
+            <span class="text-[11px] text-gray-400 font-light">Enterprise AI Systems</span>
+          </div>
+        </div>
+        <div class="flex flex-col md:items-end gap-1">
+          <p class="text-xs text-gray-400 font-light">
+            Contact: <span class="text-secondary">hello@paist.ai</span>
+          </p>
+          <p class="text-xs text-gray-500 font-light">
+            © 2025 PAIST. All rights reserved.
+          </p>
+        </div>
+      </div>
     </div>
+  </footer>
 
-    <script>
-        // Timer functionality
-        let timerInterval;
-        let timeRemaining = 86400; // 24 hours in seconds
-
-        function updateTimer() {
-            const selectValue = document.getElementById('expireTime').value;
-            timeRemaining = parseInt(selectValue);
-            displayTimer();
-            clearInterval(timerInterval);
-            startTimer();
-        }
-
-        function displayTimer() {
-            const hours = Math.floor(timeRemaining / 3600);
-            const minutes = Math.floor((timeRemaining % 3600) / 60);
-            const seconds = timeRemaining % 60;
-            
-            const display = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            document.getElementById('timerDisplay').textContent = display;
-        }
-
-        function startTimer() {
-            timerInterval = setInterval(() => {
-                if (timeRemaining > 0) {
-                    timeRemaining--;
-                    displayTimer();
-                } else {
-                    clearInterval(timerInterval);
-                    document.getElementById('timerDisplay').textContent = "EXPIRED";
-                }
-            }, 1000);
-        }
-
-        // Premium Modal
-        function openPremiumModal() {
-            document.getElementById('premiumModal').classList.add('active');
-        }
-
-        function closePremiumModal() {
-            document.getElementById('premiumModal').classList.remove('active');
-        }
-
-        // Navigation
-        function showHome() {
-            document.getElementById('homeSection').style.display = 'block';
-            document.getElementById('dashboardSection').classList.remove('active');
-            closePremiumModal();
-        }
-
-        function showDashboard() {
-            document.getElementById('homeSection').style.display = 'none';
-            document.getElementById('dashboardSection').classList.add('active');
-            closePremiumModal();
-            initCharts();
-        }
-
-        function scrollToCreate() {
-            const pasteForm = document.getElementById('pasteForm');
-            if (pasteForm) {
-                pasteForm.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        // Charts
-        let chartsInitialized = false;
-
-        function initCharts() {
-            if (chartsInitialized) return;
-            chartsInitialized = true;
-
-            const chartOptions = {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: '#cbd5e1'
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        ticks: { color: '#cbd5e1' },
-                        grid: { color: '#334155' }
-                    },
-                    x: {
-                        ticks: { color: '#cbd5e1' },
-                        grid: { color: '#334155' }
-                    }
-                }
-            };
-
-            // Earnings Chart
-            new Chart(document.getElementById('earningsChart'), {
-                type: 'line',
-                data: {
-                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                    datasets: [{
-                        label: 'Earnings ($)',
-                        data: [120, 190, 150, 220, 180, 240, 200],
-                        borderColor: '#7c3aed',
-                        backgroundColor: 'rgba(124, 58, 237, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: chartOptions
-            });
-
-            // Views Chart
-            new Chart(document.getElementById('viewsChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                    datasets: [{
-                        label: 'Views',
-                        data: [2400, 3200, 2800, 3500, 2900, 3800, 3200],
-                        backgroundColor: 'rgba(59, 130, 246, 0.8)',
-                        borderColor: '#3b82f6',
-                        borderWidth: 1
-                    }]
-                },
-                options: chartOptions
-            });
-
-            // Revenue Chart
-            new Chart(document.getElementById('revenueChart'), {
-                type: 'doughnut',
-                data: {
-                    labels: ['Articles', 'Code', 'Media', 'Other'],
-                    datasets: [{
-                        data: [35, 25, 30, 10],
-                        backgroundColor: [
-                            'rgba(124, 58, 237, 0.8)',
-                            'rgba(59, 130, 246, 0.8)',
-                            'rgba(16, 185, 129, 0.8)',
-                            'rgba(245, 158, 11, 0.8)'
-                        ],
-                        borderColor: '#1e293b',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: {
-                        legend: {
-                            labels: { color: '#cbd5e1' }
-                        }
-                    }
-                }
-            });
-
-            // Engagement Chart
-            new Chart(document.getElementById('engagementChart'), {
-                type: 'radar',
-                data: {
-                    labels: ['Clicks', 'Shares', 'Comments', 'Saves', 'Views'],
-                    datasets: [{
-                        label: 'Engagement',
-                        data: [85, 72, 68, 90, 88],
-                        borderColor: '#7c3aed',
-                        backgroundColor: 'rgba(124, 58, 237, 0.2)',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: {
-                        legend: {
-                            labels: { color: '#cbd5e1' }
-                        }
-                    },
-                    scales: {
-                        r: {
-                            ticks: { color: '#cbd5e1' },
-                            grid: { color: '#334155' }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Close modal on outside click
-        document.getElementById('premiumModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closePremiumModal();
-            }
+  <!-- Required JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Mobile Menu Toggle
+      const mobileMenuButton = document.querySelector('.mobile-menu-button');
+      const mobileMenu = document.querySelector('.mobile-menu');
+      
+      if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+          const icon = mobileMenuButton.querySelector('i');
+          if (icon) {
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+          }
         });
 
-        // Initialize
-        displayTimer();
-        startTimer();
-    </script>
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            const icon = mobileMenuButton.querySelector('i');
+            if (icon) {
+              icon.classList.remove('fa-times');
+              icon.classList.add('fa-bars');
+            }
+          });
+        });
+      }
+
+      // FAQ Accordion Toggle
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        if (question) {
+          question.addEventListener('click', () => {
+            const answer = item.querySelector('.faq-answer');
+            const isOpen = answer && !answer.classList.contains('hidden');
+            
+            // Close all other FAQ items
+            faqItems.forEach(otherItem => {
+              if (otherItem !== item) {
+                const otherAnswer = otherItem.querySelector('.faq-answer');
+                const otherIcon = otherItem.querySelector('.faq-icon');
+                if (otherAnswer && !otherAnswer.classList.contains('hidden')) {
+                  otherAnswer.classList.add('hidden');
+                }
+                if (otherIcon) {
+                  otherIcon.classList.remove('rotate-180');
+                }
+              }
+            });
+            
+            // Toggle current item
+            if (answer) {
+              answer.classList.toggle('hidden');
+            }
+            const icon = item.querySelector('.faq-icon');
+            if (icon) {
+              icon.classList.toggle('rotate-180');
+            }
+          });
+        }
+      });
+
+      // Smooth Scroll for Anchor Links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const href = this.getAttribute('href');
+          if (href !== '#' && href.length > 1) {
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (target) {
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }
+        });
+      });
+
+      // Initialize Lucide Icons
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    });
+  </script>
+  <script>
+    // Ensure lucide icons are created even if script loads late
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons();
+    }
+  </script>
 </body>
 </html>
